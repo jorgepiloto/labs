@@ -26,21 +26,25 @@ opts=[];
 %% Ploting all the results
 plot_title = ["Velocity along time", "Position along time", "Height along time", "Weight along time"];
 plot_colors = ['b', 'r', 'k', 'y'];
-figure()
 for i=1:4
     subplot(2, 2, i)
     plot(t, u(:, i), plot_colors(i));
     title(plot_title(i));
     xlabel("Time [s]")
 end
-title("State variables along time")
+suptitle("State variables evolution");
 
 %% Plotting non dimensional Thrust vs non dimensional velocity
 T_max = p(6);
 T = 1.0 * T_max * (ISA(h0) / ISA(0)) ^ 0.7 * ones(length(u(:, 3)));
 
+V_hat_formula = 1.2:0.1:3.0;
+T_hat_formula = 0.5 .* (V_hat_formula .^2 + 1 ./ V_hat_formula .^2);
+
 [T_hat, V_hat, T_b, V_b] = from_d_2_nd(T, u(:, 1), p, u(:, 3), u(:, 4));
 figure()
 plot(V_hat, T_hat);
+hold on
+plot(V_hat_formula, T_hat_formula, 'k');
 title("T_hat vs v_hat");
 
