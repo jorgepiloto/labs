@@ -1,4 +1,4 @@
-function [T,V,T_b,V_b] = From_ND_2_D(T_hat,V_hat,p,h,W)
+function [T,V,T_b,V_b] = from_nd_2_d(T_hat,V_hat,p,h,W)
 %% INPUTS
 % T_hat  --> Dimensionless thrust   [-]
 % V_hat  --> Dimensionless velocity [-]
@@ -13,7 +13,7 @@ function [T,V,T_b,V_b] = From_ND_2_D(T_hat,V_hat,p,h,W)
 % V_b    --> Base velocity          [m/s]
 
 %% MAIN
-[rho,~,~,~] = ISA(h);
+rho = ISA(h);
 rho = rho';
 S = p(2);
 CD0 = p(5);
