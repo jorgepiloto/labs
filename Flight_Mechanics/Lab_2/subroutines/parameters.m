@@ -1,10 +1,18 @@
-function p = Parameters
-%% INPUS
+function p = parameters
+%{
 
-%% OUTPUTS
-% p --> Aircraft parameters
+	The following function returns the different parameters given in the
+	statement of the problem:
 
-%% MAIN
+	Inputs
+	------
+	None
+
+	Returns
+	-------
+	p: array
+		Array that contains all the different parameters
+%}
 
 p = zeros(10,1);
 
@@ -18,4 +26,5 @@ p(7)  = 0.000167;              % Specific fuel consumption      [s^-1]
 p(8)  = 1.333*10^6;            % Maximum takeoff weight         [N]
 p(9)  = 1/(p(4)*pi*p(3));      % Induced drag coefficient       [-]
 p(10) = 1/(2*sqrt(p(9)*p(5))); % Maximum aerodynamic efficiency [-]
+
 end

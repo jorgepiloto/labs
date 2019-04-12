@@ -1,13 +1,21 @@
-function [rho,P,Temp,a] = ISA(h)
-%% INPUTS
-% h   --> Height [m]
+function [rho, p, Temp, a] = ISA(h)
+%{
 
-%% OUTPUTS
-% rho    --> Air density [kg/m^3]
-% P      --> Pressure    [pa]
-% Temp   --> Temperature [K]
-% a      --> Sound speed [m/s]
-%% MAIN
-[Temp,a,P,rho] = atmosisa(h);
+	The following function returns atmospheric properties:
+
+	Inputs
+	------
+	h: float
+		Height
+
+	Returns
+	-------
+	Temp: temperature in [k]
+	a: speed of sound in [m/s]
+	P: pressure in [Pa]
+	rho: density in [kg/m^3]
+%}
+
+[Temp, a, P, rho] = atmosisa(h);
 
 end
