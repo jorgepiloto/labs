@@ -1,4 +1,4 @@
-function dudt = ODE_Cruise(t,u,xc)
+function dudt = ode_cruise(t,u,xc)
 %% INPUTS
 % t    -->  Time
 % u    -->  State vector 

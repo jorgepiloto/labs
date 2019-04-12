@@ -21,7 +21,7 @@ u0 = [v0, x0, h0, W0]; %Initial state vector
 %% Solving ODE_Cruise
 tspan = [0 3600]; % Time span for one hour
 opts=[];
-[t, u] = ode45(@ODE_Cruise, tspan, u0,opts,1); % Evolution of system
+[t, u] = ode45(@ode_cruise, tspan, u0, opts,1); % Evolution of system
 
 %% Ploting all the results
 plot_title = ["Velocity along time", "Position along time", "Height along time", "Weight along time"];
@@ -35,16 +35,17 @@ end
 suptitle("State variables evolution");
 
 %% Plotting non dimensional Thrust vs non dimensional velocity
+PI = 1.0;
 T_max = p(6);
-T = 1.0 * T_max * (ISA(h0) / ISA(0)) ^ 0.7 * ones(length(u(:, 3)));
+T = PI * T_max * (ISA(h0) / ISA(0)) ^ 0.7 * ones(length(u(:, 3)));
 
-V_hat_formula = 1.2:0.1:3.0;
-T_hat_formula = 0.5 .* (V_hat_formula .^2 + 1 ./ V_hat_formula .^2);
+V_hat_performance = 1.2:0.1:3.0;
+T_hat_performance = performance_vertical(V_hat_performance, 0);
 
 [T_hat, V_hat, T_b, V_b] = from_d_2_nd(T, u(:, 1), p, u(:, 3), u(:, 4));
 figure()
 plot(V_hat, T_hat);
 hold on
-plot(V_hat_formula, T_hat_formula, 'k');
+plot(V_hat_performance, T_hat_performance, 'k');
 title("T_hat vs v_hat");
 
