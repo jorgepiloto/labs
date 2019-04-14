@@ -1,4 +1,4 @@
-function T_hat = performance_vertical(V_hat, gamma)
+function T_hat = per_vertical(V_hat, gamma)
 
 % Retreive parameters
 global p

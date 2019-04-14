@@ -38,7 +38,7 @@ for n = 1 : length(v0_span)
         hold on;
     end
     
-    % Plotting the results for state variables
+    % Plotting the results for performance variables
     PI = 1.0;
     T_max = p(6);
     T = PI * T_max * (ISA(h0) / ISA(0)) ^ 0.7 * ones(length(u(:, 3)));
