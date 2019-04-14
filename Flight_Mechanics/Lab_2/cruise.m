@@ -13,7 +13,9 @@ p = parameters();
 x0 = 0; % Position
 h0 = 10000; % Height
 W0 = p(8); %Weight
-v0 = 1.2 * (2 * p(8) / (ISA(h0) * p(2))) ^ 0.5 * (p(9) / p(5)) ^ 0.25; % Initial base velcocity
+
+% The initial velocity should be studied for: 0.4, 0.6 and 1.2 times Vem
+v0 = 0.4 * (2 * p(8) / (ISA(h0) * p(2))) ^ 0.5 * (p(9) / p(5)) ^ 0.25; % Initial base velcocity
 
 u0 = [v0, x0, h0, W0]; %Initial state vector
 
@@ -27,7 +29,7 @@ opts=[];
 plot_title = ["Velocity along time", "Position along time", "Height along time", "Weight along time"];
 plot_colors = ['b', 'r', 'k', 'y'];
 for i=1:4
-    subplot(2, 2, i)
+    subplot(4, 1, i)
     plot(t, u(:, i), plot_colors(i));
     title(plot_title(i));
     xlabel("Time [s]")
@@ -44,10 +46,14 @@ T_hat_performance = performance_vertical(V_hat_performance, 0);
 
 [T_hat, V_hat, T_b, V_b] = from_d_2_nd(T, u(:, 1), p, u(:, 3), u(:, 4));
 figure()
+title("T_hat vs V_hat");
+xlabel("V_hat");
+ylabel("T_hat");
+
 plot(V_hat, T_hat);
 hold on
-plot(V_hat_performance, T_hat_performance, 'k');
-title("T_hat vs v_hat");
+plot(V_hat_performance, T_hat_performance);
+legend('Simulation', 'Performance');
 
 %% 
 
