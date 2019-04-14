@@ -1,12 +1,9 @@
-%%%%%%%%%%%%%%%%%%%%%%%%
-%%%% TURN ANALYSIS  %%%%
-%%%%%%%%%%%%%%%%%%%%%%%%
+% Turn analysis
 
 clear; clc; addpath('./subroutines');
-
-
-%% Loading all the parameters
 global p
+
+% Loading all the parameters and initial conditions
 p = parameters();
 
 %% Generating contour plots
@@ -27,7 +24,6 @@ for i=1:length(contour_titles)
     colormap(autumn);
     title(contour_titles(i));
 end
-suptitle("Performance on aircraft turning");
 
 %% Compute PI and bank angle
 h0 = 10000;
@@ -35,7 +31,7 @@ V_hat = 1.1;
 T_hat = 1.2;
 
 mu = acos(1 / T_hat);
-[T0, V0, T_b, V_b] = from_nd_2_d(T_hat, V_hat, p, h0, p(8));
+[T0, V0, ~, ~] = from_nd_2_d(T_hat, V_hat, p, h0, p(8));
 
 PI = (T0 / p(6)) * (ISA(0) / ISA(h0)) ^ 0.7;
 
@@ -51,35 +47,36 @@ xc = [PI, mu];
 
 %% Ploting all the results
 
-plot_title = ["Velocity", "$\ji$", "W"];
+plot_title = ["Velocity", "\chi", "W"];
 plot_colors = ['b', 'r', 'k'];
 
 figure();
-
 vars = {u(:,1), u(:,5), u(:,6)};
 for i=1:3
-    subplot(2, 2, i)
-    plot(t, vars{i}, plot_colors(i));
+    subplot(4, 1, i)
+    plot(t, vars{i}, plot_colors(i), 'linewidth', 1.5);
     title(plot_title(i));
     xlabel("Time [s]")
 end
-subplot(2, 2, 4)
+subplot(4, 1, 4)
 plot(u(:,3), u(:,2), 'y');
+xlabel("Time [s]");
 title("X vs Y");
-suptitle("State variables evolution descending");
 
-%% Plotting T_hat vs V_hat
-%% Plotting non dimensional Thrust vs non dimensional velocity
+% Plotting T_hat vs V_hat
 T_max = p(6);
 T = PI * T_max * (ISA(h0) / ISA(0)) ^ 0.7 * ones(length(u(:, 3)));
 
 figure()
 [T_hat, V_hat, T_b, V_b] = from_d_2_nd(T, u(:, 1), p, u(:, 4), u(:, 6));
-plot(V_hat, T_hat, 'b');
-
+plot(V_hat, T_hat, 'b', 'linewidth', 1.5);
+hold on;
 V_hat = 0.1:0.1:3.0;
 T_hat = 1/2 .* (V_hat .^ 2 + 1 ./ V_hat .^ 2 / cos(mu) .^ 2);
-plot(V_hat, T_hat, 'k');
+plot(V_hat, T_hat, 'k', 'linewidth', 1.5);
+title("T_h vs V_h");
+xlabel("V_h");
+ylabel("T_h");
 
 
     
