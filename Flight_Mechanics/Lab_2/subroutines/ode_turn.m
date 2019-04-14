@@ -1,4 +1,4 @@
-function dudt = ode_vertical(t, u, xc)
+function dudt = ode_turn(t, u, xc)
 
 global p;
 g = 9.8; 

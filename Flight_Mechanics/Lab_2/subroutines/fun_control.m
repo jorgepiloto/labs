@@ -1,4 +1,4 @@
-function xc = Fun_Control(flag,u,p,inp)
+function xc = fun_control(flag,u,p,inp)
 %% INPUTS
 % flag  --> Flag for the type of manoeuvre
 %       --> 0 Cruise

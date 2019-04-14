@@ -22,7 +22,7 @@ mu = acos(1 ./ T_hat);
 Z = {mu, n_factor, turn_rate, Rg_vEm}; % Variables to be ploted
 
 for i=1:length(contour_titles)
-    subplot(2, 2, i);
+    subplot(4, 1, i);
     contourf(V_hat, T_hat, real(Z{i}), 'ShowText','on');
     colormap(autumn);
     title(contour_titles(i));
@@ -51,7 +51,7 @@ xc = [PI, mu];
 
 %% Ploting all the results
 
-plot_title = ["Velocity", "$\Xi$", "W"];
+plot_title = ["Velocity", "$\ji$", "W"];
 plot_colors = ['b', 'r', 'k'];
 
 figure();

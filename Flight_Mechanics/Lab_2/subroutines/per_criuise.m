@@ -1,4 +1,4 @@
-function out = Per_Cruise(inp,flag)
+function out = per_cruise(inp,flag)
 %% INPUTS
 % inp  --> Dimensionless velocity or thrust
 % flag --> Flag indicating if out is thrust or velocity  
