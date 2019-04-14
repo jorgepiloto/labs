@@ -18,6 +18,7 @@ mu = acos(1 ./ T_hat);
 
 Z = {mu, n_factor, turn_rate, Rg_vEm}; % Variables to be ploted
 
+figure()
 for i=1:length(contour_titles)
     subplot(4, 1, i);
     contourf(V_hat, T_hat, real(Z{i}), 'ShowText','on');
