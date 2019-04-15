@@ -1,48 +1,48 @@
-function xc = fun_control(flag,u,p,inp)
-%% INPUTS
-% flag  --> Flag for the type of manoeuvre
-%       --> 0 Cruise
-%       --> 1 Vertical with constant elevation angle
-%       --> 2 Vertical with constant thrust level
-%       --> 3 Turning
-% u     --> State vector
-% p     --> Aircraft parameters (see Parameters.m)
-%% OUTPUTS
-% xc    --> Control vector (thrust level or elevation angle)
-%% MAIN
-S = p(2);
-CD0 = p(5);
-TmaxSL = p(6);
-k = p(9);
+function xc = fun_control(flag, p)
 
-V = u(1);
-h = u(3);
-W = u(4);
+%{
 
-rho = ISA(h);
-rho = rho';
-rhoSL = ISA(0);
+	The following function returns the control vector for a given
+	simulation:
 
-if flag==0
-    TL = 1/2*rho.*V.^2*S.*(CD0+k*(W./(1/2*rho.*V.^2*S)).^2)./(TmaxSL*(rho./rhoSL).^0.7);
-    
-    if TL<0 || TL>1
-       error('TL out of the range.') 
-    end
-    
-    xc = TL;
-    
-elseif flag==1
-    gamma = inp;
-    TL = (1/2*rho.*V.^2*S.*(CD0+k*(W*cos(gamma)./(1/2*rho.*V.^2*S)).^2)+W*sin(gamma))...
-              ./(TmaxSL*(rho./rhoSL).^0.7);  
-    if TL<0 || TL>1
-       error('TL out of the range.')  
-    end
-    
-    xc = TL;      
-elseif flag==2
+	Inputs
+	------
+	flag: int
+		1: Cruise
+		2: Vertical
+		3: Turn
+    p: array
+        Parameters list
 
-end 
+	Outputs
+	-------
+	xc: array
+		Contains [PI, angle]
 
-end 
+%}
+
+if flag == 0
+	% We have cruise conditions
+	xc = [1.0];
+end
+
+if flag == 1
+	% We have vertical conditions
+	PI = 0.5;
+	gamma = deg2rad(-2);
+	xc = [PI, gamma];
+end
+
+if flag == 2
+	% We hace turn conditions
+	T_hat = 1.2;
+	V_hat = 1.1;
+
+	mu = acos(1 / (V_hat * sqrt(2 * T_hat - ( V_hat ^ 2))));
+	T = T_hat * 2 * sqrt(p(9) * p(5)) * p(8);
+
+	PI = T / p(6) * (ISA(0) / ISA(10000)) ^ 0.7;
+	xc = [PI, mu];
+end
+
+end
