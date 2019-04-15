@@ -25,7 +25,6 @@ for i=1:length(contour_titles)
     colormap(autumn);
     title(contour_titles(i));
 end
-close all;
 
 % Solve ODE
 T_hat = 1.2;
@@ -53,17 +52,34 @@ plot_colors = ['b', 'r', 'k'];
 figure();
 vars = {u(:,1), u(:,6), u(:,4)};
 for i=1:3
-    subplot(4, 1, i)
+    subplot(3, 1, i)
     plot(t, vars{i}, plot_colors(i), 'linewidth', 1.5);
     title(plot_title(i));
     xlabel("Time [s]")
 end
 
 figure()
-plot(u(:,2), u(:,5), 'y');
-xlabel("Time [s]");
+plot(u(:,2) / 1000, u(:,5) / 1000, 'k');
+xlabel("X [km]");
+ylabel("Y [km]");
 title("X vs Y");
 
+% Performance computation
+
+figure()
+T = xc(1) * p(6) * (ISA(h0) / ISA(0)) ^ 0.7;
+[T_hat, V_hat, T_b, V_b] = from_d_2_nd(T, u(:,1), p, h0, u(:, 4));
+plot(V_hat, T_hat, 'k', 'linewidth', 1.5);
+
+% Ideal one
+V_hat = 0.1 : 0.01 : 3.0;
+T_hat = 0.5 .* (V_hat .^ 2 + 1 ./ V_hat .^ 2);
+hold on
+plot(V_hat, T_hat, 'r');
+title("T_h vs V_h");
+xlabel("V_h");
+ylabel("T_h");
+legend("Real one", "Ideal one");
 
 
 
